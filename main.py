@@ -11,24 +11,24 @@ screen.setup(width=WIDTH, height=HEIGHT)
 screen.bgcolor("black")
 screen.title("Snake Game")
 
-# TODO 0. Turn off animation using tracer
 screen.tracer(0)
 
-# TODO 1. Create a snake body.
 snake = Snake()
 
-# TODO 2. Move the snake forward
+screen.listen()
+screen.onkey(snake.up, "Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.left, "Left")
+screen.onkey(snake.right, "Right")
+
+
 game_is_on = True
 count = 0
 while game_is_on:
     screen.update()
     time.sleep(0.1)
     snake.move()
+    screen.update()
     count += 1
-    if count % 10 == 0:
-        snake.set_head("left")
-        count += 1
-    if count == 80: # 10mloops
-        game_is_on = False
 
 screen.exitonclick()
