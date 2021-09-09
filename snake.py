@@ -9,28 +9,37 @@ DOWN = 270
 LEFT = 180
 RIGHT = 0
 
+
 class Snake:
 
     def __init__(self):
         self.all_segments = []
         self.create_snake()
-        # self.head = self.all_segments[-1]
         self.head = self.all_segments[0]
-        self.length = 3
+        self.length = len(self.all_segments)
 
     def create_snake(self):
         # for position in STARTING_POSITIONS[::-1]:
         for position in STARTING_POSITIONS:
-            new_segment = Turtle(shape="square")
-            new_segment.penup()
-            new_segment.color("white")
-            new_segment.goto(position)
-            self.all_segments.append(new_segment)
+            self.add_segment(position)
+
+    def add_segment(self, position):
+        new_segment = Turtle(shape="square")
+        new_segment.penup()
+        # new_segment.speed(3)
+        new_segment.color("black")
+        new_segment.goto(position)
+        new_segment.turtlesize(outline=1)
+        new_segment.fillcolor("#D4C783")
+        self.all_segments.append(new_segment)
+
+    def extend(self):
+        self.add_segment(self.all_segments[-1].position())
 
     def move(self):
         head = self.head
-        n = self.length
-        for i in range(n-1, 0, -1):
+        n = len(self.all_segments)
+        for i in range(n - 1, 0, -1):
             current_pos = self.all_segments[i - 1].position()
             self.all_segments[i].goto(current_pos)
         self.head.forward(MOVE_DISTANCE)
@@ -60,4 +69,10 @@ class Snake:
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
 
-
+    def reset(self):
+        for seg in self.all_segments:
+            seg.hideturtle()
+        self.all_segments.clear()
+        self.create_snake()
+        self.head = self.all_segments[0]
+        self.length = len(self.all_segments)
